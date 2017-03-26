@@ -11,7 +11,8 @@ import java.util.ArrayList;
  * @author AI
  */
 public abstract class Human { 
-    ArrayList<Integer> MyCards   =   new ArrayList<>();
+    ArrayList<Integer> MyCards  = new ArrayList<>();
+    ArrayList<Integer> SubCards = new ArrayList<>();  
     
     public abstract int open();
     

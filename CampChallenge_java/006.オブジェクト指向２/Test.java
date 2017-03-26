@@ -13,16 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
-
 /**
  *
- * @author AI
+ * @author FRB
  */
-@WebServlet(name = "BlackJack", urlPatterns = {"/BlackJack"})
-public class BlackJack extends HttpServlet {
+@WebServlet(name = "Test", urlPatterns = {"/Test"})
+public class Test extends HttpServlet {
 
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,40 +32,19 @@ public class BlackJack extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-            //実体化
-            Dealer dealer   =   new Dealer();
-            User    user    =   new User();
-            //カード52枚セット
-            dealer.Initialization();
-            user.Initialization();
-            //ディーラーが2枚カードを引く
-            dealer.setCard(dealer.deal());
-            
-            //ユーザーが2枚カードを引く
-            user.setCard(user.deal());
-            
-            //ディーラーカード引くかどうかチェック
-            while(dealer.checkSum()){
-                dealer.setCard(dealer.hit());
-            }
-            //ユーザーカード引くかどうかチェック
-            while(user.checkSum()){
-                user.setCard(user.hit());
-            }
-            
-        
+        Dealer D = new Dealer();
+        D.Initialization();
         try (PrintWriter out = response.getWriter()) {
+            
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlackJack</title>");            
+            out.println("<title>Servlet Test</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlackJack at " + request.getContextPath() + "</h1>");
-            out.println(dealer.MyCards);
-            out.println(user.SubCards);
+            out.println("<h1>Servlet Test at " + D.cards.size()  + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
