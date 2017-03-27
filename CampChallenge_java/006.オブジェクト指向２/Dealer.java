@@ -31,31 +31,41 @@ public class Dealer extends Human{
         }
     }
     
-    //ランダムで2枚引く
-    public ArrayList<Integer> deal(){
-        
+
+    //ランダムで2枚引き、cardsから引いたカードは削除
+    public ArrayList<Integer> deal(){        
         Random rand = new Random();
         for(int i=0;i<2;i++){
-            int index = rand.nextInt(52);
+            int index = rand.nextInt(cards.size());
             this.dealcard.add(this.cards.get(index));
+            cards.remove(index);
         }
         return this.dealcard;
     }
-    //ランダムで1枚引く
+    //ランダムで1枚引き、cardsから引いたカードは削除
     public ArrayList<Integer> hit(){
         Random rand = new Random();
-        int index = rand.nextInt(52);
+        int index = rand.nextInt(cards.size());
         this.hitcard.add(this.cards.get(index));
+        cards.remove(index);
         return this.hitcard;
     }
-
+    //dealカードリセット
+    public void dRemove(){
+        this.dealcard.clear();
+    }
+    //hitカードリセット
+    public void hRemove(){
+        this.hitcard.clear();
+    }
+    //dealerカードをセット
     @Override
     public void setCard(ArrayList set) {
         MyCards.addAll(set);
     }
+    //delaer引くかどうかをチェック
     @Override
     public boolean checkSum() {
-
         int sum = open();
         if(sum<17){
             return true;
@@ -63,9 +73,9 @@ public class Dealer extends Human{
             return false;
         }
     }
+    //dealerカード合計値の返還
     @Override
     public int open() {
-        int i   =   0;
         int sum =   0;
         for(Integer check :MyCards){
             sum = sum + check;

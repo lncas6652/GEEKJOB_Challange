@@ -39,22 +39,26 @@ public class BlackJack extends HttpServlet {
             //実体化
             Dealer dealer   =   new Dealer();
             User    user    =   new User();
+            String br       =   "<br/>";
+            
             //カード52枚セット
             dealer.Initialization();
-            user.Initialization();
+            
             //ディーラーが2枚カードを引く
             dealer.setCard(dealer.deal());
-            
+            dealer.dRemove();
             //ユーザーが2枚カードを引く
-            user.setCard(user.deal());
+            user.setCard(dealer.deal());
             
             //ディーラーカード引くかどうかチェック
             while(dealer.checkSum()){
                 dealer.setCard(dealer.hit());
+                dealer.hRemove();
             }
-            //ユーザーカード引くかどうかチェック
+            //ユーザーカード引くかどうかチェックh
             while(user.checkSum()){
-                user.setCard(user.hit());
+                user.setCard(dealer.hit());
+                dealer.hRemove();
             }
             
         
@@ -66,9 +70,29 @@ public class BlackJack extends HttpServlet {
             out.println("<title>Servlet BlackJack</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlackJack at " + request.getContextPath() + "</h1>");
-            out.println(dealer.MyCards);
-            out.println(user.SubCards);
+            //ディーラーカード
+            out.println("ディーラーのカードは"+(dealer.MyCards)+"です。"+(br));
+            //ユーザーカード
+            out.println("ユーザーのカードは"+(user.MyCards)+"です。"+(br));
+            //合計出力
+            out.println("ディーラーの合計は"+(dealer.open())+"です。"+(br));
+            out.println("ユーザーの合計は"+(user.open())+"です。"+(br));
+            //比較
+            if((dealer.open()>21)&&(user.open()>21)){
+                out.println("バストしました。引き分けです。"+(br));
+            }else if(dealer.open()>21){
+                out.println("ディーラーバストしました。ユーザーの勝利です。"+(br));
+            }else if(user.open()>21){
+                out.println("ユーザーバストしました。ディーラーの勝利です。"+(br));
+            }else if(dealer.open()>user.open()){
+                out.println("ディーラーの勝利です。"+(br));
+            }else if(user.open()>dealer.open()){
+                out.println("ユーザーの勝利です。"+(br));
+            }else if(dealer.open()==user.open()){
+                out.println("引き分けです。"+(br)); 
+            }
+            dealer.MyCards.clear();
+            user.MyCards.clear();
             out.println("</body>");
             out.println("</html>");
         }
